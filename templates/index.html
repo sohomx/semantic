@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Search</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Semantic Search</h1>
+    <form id="search-form">
+        <label for="query">Search:</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Search</button>
+    </form>
+    <h2>Result:</h2>
+    <pre id="result"></pre>
+
+    <script>
+        $(document).ready(function() {
+            $('#search-form').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/search',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        $('#result').text(JSON.stringify(data, null, 2));
+                    },
+                    error: function() {
+                        alert('Error occurred during search');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
